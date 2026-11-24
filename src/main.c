@@ -1688,6 +1688,33 @@ static gboolean trigger_startup_pkg(gpointer user_data) {
     return G_SOURCE_REMOVE;
 }
 
+static void on_info_clicked(GtkButton *btn, gpointer user_data) {
+    (void)btn;
+    AppUI *ui = (AppUI *)user_data;
+
+    AdwAboutDialog *about = ADW_ABOUT_DIALOG(adw_about_dialog_new());
+    adw_about_dialog_set_application_name(about, "Universal Linux App Installer");
+    adw_about_dialog_set_application_icon(about, "com.astro.UniversalAppInstaller");
+    adw_about_dialog_set_developer_name(about, "Saurav Kumar (@cyberhavik)");
+    adw_about_dialog_set_version(about, "v1.0.0");
+    adw_about_dialog_set_comments(about,
+        "macOS-Style Drag & Drop Universal Linux Package Installer & Uninstaller (.deb, .rpm, .AppImage, .pkg.tar.zst, .apk, .flatpak, .tar.gz) — Built in Native C with GTK4 & Libadwaita.");
+    adw_about_dialog_set_website(about, "https://github.com/cyberhavik/universal-linux-app-installer");
+    adw_about_dialog_set_issue_url(about, "https://github.com/cyberhavik/universal-linux-app-installer/issues");
+    adw_about_dialog_set_support_url(about, "https://github.com/cyberhavik");
+    adw_about_dialog_set_copyright(about, "© 2026 Saurav Kumar (cyberhavik)");
+    adw_about_dialog_set_license_type(about, GTK_LICENSE_MIT_X11);
+
+    adw_about_dialog_add_link(about, "GitHub Profile (@cyberhavik)", "https://github.com/cyberhavik");
+    adw_about_dialog_add_link(about, "Universal Linux App Installer Repository", "https://github.com/cyberhavik/universal-linux-app-installer");
+    adw_about_dialog_add_link(about, "RPM App Installer Repository", "https://github.com/cyberhavik/rpm-app-installer");
+
+    const char *devs[] = { "Saurav Kumar (cyberhavik) https://github.com/cyberhavik", NULL };
+    adw_about_dialog_set_developers(about, devs);
+
+    adw_dialog_present(ADW_DIALOG(about), GTK_WIDGET(ui->window));
+}
+
 static void on_activate(GtkApplication *app, gpointer user_data) {
     AppUI *ui = (AppUI *)user_data;
     ui->app = app;
@@ -1712,6 +1739,13 @@ static void on_activate(GtkApplication *app, gpointer user_data) {
     gtk_widget_set_tooltip_text(header_open_btn, "Browse Any Linux Package");
     g_signal_connect(header_open_btn, "clicked", G_CALLBACK(on_browse_clicked), ui);
     adw_header_bar_pack_start(header, header_open_btn);
+
+    // Circled 'i' Info / About Developer & GitHub button
+    GtkWidget *info_btn = gtk_button_new_from_icon_name("dialog-information-symbolic");
+    gtk_widget_set_tooltip_text(info_btn, "About Developer & GitHub Repository (Saurav Kumar • @cyberhavik)");
+    gtk_widget_add_css_class(info_btn, "circular");
+    g_signal_connect(info_btn, "clicked", G_CALLBACK(on_info_clicked), ui);
+    adw_header_bar_pack_end(header, info_btn);
 
     ui->count_badge = gtk_label_new("0 Installed");
     gtk_widget_add_css_class(ui->count_badge, "count-pill");
