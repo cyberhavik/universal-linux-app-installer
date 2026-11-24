@@ -1,0 +1,8 @@
+# Compiled binaries & build artifacts
+uapp
+*.o
+*.so
+*.rpm
+dist/
+build/
+.DS_Store
