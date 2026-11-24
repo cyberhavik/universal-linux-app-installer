@@ -15,7 +15,7 @@
 
 <br />
 
-<img src="assets/screenshot.png" width="720" alt="Universal Linux App Installer GUI Screenshot" />
+<img src="assets/uapp-screenshot.png" width="720" alt="Universal Linux App Installer GUI Screenshot" />
 
 </div>
 
