@@ -1707,7 +1707,6 @@ static void on_info_clicked(GtkButton *btn, gpointer user_data) {
 
     adw_about_dialog_add_link(about, "GitHub Profile (@cyberhavik)", "https://github.com/cyberhavik");
     adw_about_dialog_add_link(about, "Universal Linux App Installer Repository", "https://github.com/cyberhavik/universal-linux-app-installer");
-    adw_about_dialog_add_link(about, "RPM App Installer Repository", "https://github.com/cyberhavik/rpm-app-installer");
 
     const char *devs[] = { "Saurav Kumar (cyberhavik) https://github.com/cyberhavik", NULL };
     adw_about_dialog_set_developers(about, devs);
@@ -1735,17 +1734,18 @@ static void on_activate(GtkApplication *app, gpointer user_data) {
     AdwToolbarView *toolbar_view = ADW_TOOLBAR_VIEW(adw_toolbar_view_new());
     AdwHeaderBar *header = ADW_HEADER_BAR(adw_header_bar_new());
 
+    // Header browse button
     GtkWidget *header_open_btn = gtk_button_new_from_icon_name("document-open-symbolic");
     gtk_widget_set_tooltip_text(header_open_btn, "Browse Any Linux Package");
     g_signal_connect(header_open_btn, "clicked", G_CALLBACK(on_browse_clicked), ui);
     adw_header_bar_pack_start(header, header_open_btn);
 
-    // Circled 'i' Info / About Developer & GitHub button
+    // Circled 'i' Info / About Developer & GitHub button (next to Folder button & also visible in header)
     GtkWidget *info_btn = gtk_button_new_from_icon_name("dialog-information-symbolic");
     gtk_widget_set_tooltip_text(info_btn, "About Developer & GitHub Repository (Saurav Kumar • @cyberhavik)");
     gtk_widget_add_css_class(info_btn, "circular");
     g_signal_connect(info_btn, "clicked", G_CALLBACK(on_info_clicked), ui);
-    adw_header_bar_pack_end(header, info_btn);
+    adw_header_bar_pack_start(header, info_btn);
 
     ui->count_badge = gtk_label_new("0 Installed");
     gtk_widget_add_css_class(ui->count_badge, "count-pill");
